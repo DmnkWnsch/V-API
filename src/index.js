@@ -1,16 +1,11 @@
-const express = require("express");
+import express, { json } from "express";
+import moduleRouter from "./routes/module.routes.js";
 
 const app = express();
-app.use(express.json());
+app.use(json());
+
+app.use("/modules", moduleRouter);
 
 app.listen(3210, () => {
   console.log("Server is online");
-});
-
-app.get("/test", (request, response) => {
-  const status = {
-    Status: "Operational1",
-  };
-
-  response.send(status);
 });
