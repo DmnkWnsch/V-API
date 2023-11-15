@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getAllModules, getModule } from "../controllers/module.controller.js";
+import moduleController from "../controllers/module.controller.js";
 
 const moduleRouter = Router();
 
-moduleRouter.get("/", getAllModules);
-moduleRouter.get("/:moduleId", getModule);
+moduleRouter.get("/", moduleController.getAllModules);
+moduleRouter.get("/:moduleId", moduleController.getModule);
 
 export default moduleRouter;
