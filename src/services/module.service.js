@@ -1,5 +1,16 @@
+/**
+ * Service to work with modules in the database
+ * @module services/modules
+ */
+
 import database from "../database/database.js";
 
+/**
+ * Gets all modules with their type for a specific course
+ * @function
+ * @param {Integer} courseId
+ * @returns List of modules for given course
+ */
 const getModulesForCourse = async (courseId) => {
   // Return modules for course x
   const rows = await database.query(
