@@ -4,6 +4,7 @@ import courseRouter from "./routes/course.router.js";
 import examRouter from "./routes/exam.router.js";
 import memberRouter from "./routes/member.router.js";
 import plannedExamsRouter from "./routes/planned_exams.router.js";
+import registrationPeriodRouter from "./routes/registration_period.router.js";
 
 const app = express();
 app.use(json());
@@ -13,6 +14,7 @@ app.use("/courses", courseRouter);
 app.use("/exams", examRouter);
 app.use("/members", memberRouter);
 app.use("/planned-exams", plannedExamsRouter);
+app.use("/registration-periods", registrationPeriodRouter);
 
 app.listen(3210, () => {
   console.log("Server is online");
