@@ -5,9 +5,11 @@ import examRouter from "./routes/exam.router.js";
 import memberRouter from "./routes/member.router.js";
 import plannedExamsRouter from "./routes/planned_exams.router.js";
 import registrationPeriodRouter from "./routes/registration_period.router.js";
+import bodyParser from "body-parser";
 
 const app = express();
 app.use(json());
+app.use(bodyParser.json());
 
 app.use("/modules", moduleRouter);
 app.use("/courses", courseRouter);

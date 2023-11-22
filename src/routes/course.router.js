@@ -15,6 +15,8 @@ const courseRouter = Router();
  */
 courseRouter.get("/", courseController.getAllCourses);
 
+courseRouter.post("/", courseController.createNewCourse);
+
 /**
  * Route for getting information about a specific course
  * @name GET /:courseId
