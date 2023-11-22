@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 import moduleTypesRouter from "./routes/module_types.router.js";
 import resultsRouter from "./routes/result.router.js";
 import examinersRouter from "./routes/examiners.router.js";
+import registrationRouter from "./routes/registration.router.js";
 
 const app = express();
 app.use(json());
@@ -23,6 +24,7 @@ app.use("/registration-periods", registrationPeriodRouter);
 app.use("/module-types", moduleTypesRouter);
 app.use("/results", resultsRouter);
 app.use("/examiners", examinersRouter);
+app.use("/registrations", registrationRouter);
 
 app.listen(3210, () => {
   console.log("Server is online");

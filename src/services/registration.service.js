@@ -20,6 +20,48 @@ const getRegistrationsForMember = async (memberId) => {
   return result;
 };
 
+/**
+ * Adds a new registration to the database
+ * @function
+ * @param {Object} newRegistration - the object of the registration to add
+ * @returns {Object} the registration that was added to the database
+ */
+const addRegistration = async (newRegistration) => {
+  const memberId = newRegistration.memberId;
+  const examPlanId = newRegistration.examPlanId;
+  const dbRegistration = await getRegistration(memberId, examPlanId);
+  if (dbRegistration.length > 0) {
+    throw {
+      status: 400,
+      message: `Registration for planned exam '${examPlanId}' by member_id '${memberId}' already exists!`,
+    };
+  }
+
+  await database.query(
+    "INSERT INTO exam_registrations (member_id, exam_plan_id, status) VALUES (?, ?, ?)",
+    [memberId, examPlanId, newRegistration.status]
+  );
+
+  return newRegistration;
+};
+
+/**
+ * Gets a specific registration
+ * @function
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} examPlanId - the id of the planned exam
+ * @returns Data for the registration
+ */
+const getRegistration = async (memberId, examPlanId) => {
+  const result = await database.query(
+    "SELECT * FROM exam_registrations WHERE `member_id` = ? AND `exam_plan_id` = ?",
+    [memberId, examPlanId]
+  );
+
+  return result;
+};
+
 export default {
   getRegistrationsForMember,
+  addRegistration,
 };
