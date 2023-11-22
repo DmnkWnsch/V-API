@@ -25,4 +25,13 @@ plannedExamsRouter.get(
   examinerController.getExaminersForExam
 );
 
+/**
+ * Route for creating a new module
+ * @name POST /
+ * @bodyparam {Integer} exam_id - the id of the exam
+ * @bodyparam {Date} date - the date when the exam takes place
+ * @bodyparam {Integer} register_period_id - the id of the registration period
+ */
+plannedExamsRouter.post("/", plannedExamsController.addPlannedExam);
+
 export default plannedExamsRouter;
