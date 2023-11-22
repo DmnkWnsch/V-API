@@ -37,10 +37,7 @@ const createNewCourse = async (req, res) => {
 
   if (!payload.name) {
     res.status(400).send({
-      status: "FAILED",
-      data: {
-        error: "One of the keys is missing or empty: 'name'",
-      },
+      message: "One of the keys is missing or empty: 'name'",
     });
     return;
   }
@@ -51,11 +48,9 @@ const createNewCourse = async (req, res) => {
 
   try {
     const createdCourse = await courseService.createNewCourse(newCourse);
-    res.status(201).send({ status: "OK", data: createdCourse });
+    res.status(201).send({ data: createdCourse });
   } catch (error) {
-    res
-      .status(error?.status || 500)
-      .send({ status: "FAILED", data: { error: error?.message || error } });
+    res.status(error?.status || 500).send({ message: error?.message || error });
   }
 };
 

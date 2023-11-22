@@ -15,6 +15,11 @@ const courseRouter = Router();
  */
 courseRouter.get("/", courseController.getAllCourses);
 
+/**
+ * Route for creating a new course
+ * @name POST /
+ * @bodyparam {String} name - the name of the course to create
+ */
 courseRouter.post("/", courseController.createNewCourse);
 
 /**
