@@ -1,5 +1,6 @@
 /**
  * Service to work with courses in the database
+ * @module services/courses
  */
 
 import database from "../database/database.js";
