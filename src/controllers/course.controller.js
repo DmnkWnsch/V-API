@@ -17,6 +17,7 @@ const getAllCourses = (req, res) => {
 
 /**
  * Get a specific course
+ * @function
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param req.params.courseId - the course id to get information to

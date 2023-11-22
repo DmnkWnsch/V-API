@@ -13,7 +13,7 @@ import database from "../database/database.js";
  */
 const createNewCourse = async (newCourse) => {
   const courseName = newCourse.name;
-  const alreadyExisting = courseExists(courseName);
+  const alreadyExisting = await courseExists(courseName);
   if (alreadyExisting) {
     throw {
       status: 400,
