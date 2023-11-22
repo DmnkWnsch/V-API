@@ -8,6 +8,7 @@ import registrationPeriodRouter from "./routes/registration_period.router.js";
 import bodyParser from "body-parser";
 import moduleTypesRouter from "./routes/module_types.router.js";
 import resultsRouter from "./routes/result.router.js";
+import examinersRouter from "./routes/examiners.router.js";
 
 const app = express();
 app.use(json());
@@ -21,6 +22,7 @@ app.use("/planned-exams", plannedExamsRouter);
 app.use("/registration-periods", registrationPeriodRouter);
 app.use("/module-types", moduleTypesRouter);
 app.use("/results", resultsRouter);
+app.use("/examiners", examinersRouter);
 
 app.listen(3210, () => {
   console.log("Server is online");
