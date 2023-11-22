@@ -30,7 +30,29 @@ const getMember = async (memberId) => {
   return result;
 };
 
+/**
+ * Adds a new member
+ * @function
+ * @param {Object} newMember - the object for the new member to add
+ * @returns {Object}
+ */
+const addMember = async (newMember) => {
+  await database.query(
+    "INSERT INTO members (name, last_name, role) VALUES (?, ?, ?)",
+    [newMember.name, newMember.lastName, newMember.role]
+  );
+
+  const memberId = await database.query(
+    "SELECT LAST_INSERT_ID(id) AS lid from members order by LAST_INSERT_ID(id) desc limit 1;"
+  );
+
+  newMember.memberId = memberId[0].lid;
+
+  return newMember;
+};
+
 export default {
   getAllMembers,
   getMember,
+  addMember,
 };

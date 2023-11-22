@@ -40,4 +40,13 @@ memberRouter.get(
  */
 memberRouter.get("/:memberId/results", resultController.getResultsForMember);
 
+/**
+ * Route for adding a new member
+ * @name POST /
+ * @bodyparam {String} name - first name of the member
+ * @bodyparam {String} last_name - last name of the member
+ * @bodyparam {String} role - the role of the member
+ */
+memberRouter.post("/", memberController.addMember);
+
 export default memberRouter;

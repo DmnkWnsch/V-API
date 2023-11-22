@@ -28,7 +28,33 @@ const getMember = async (req, res) => {
   res.json(result);
 };
 
+const addMember = async (req, res) => {
+  const payload = req.body;
+
+  if (!payload.name || !payload.last_name || !payload.role) {
+    res.status(400).send({
+      message:
+        "One of the keys is missing or empty: 'name', 'last_name', 'role'",
+    });
+    return;
+  }
+
+  const newMember = {
+    name: payload.name,
+    lastName: payload.last_name,
+    role: payload.role,
+  };
+
+  try {
+    const addedMember = await memberService.addMember(newMember);
+    res.status(201).send({ data: addedMember });
+  } catch (error) {
+    res.status(error?.status || 500).send({ message: error?.message || error });
+  }
+};
+
 export default {
   getAllMembers,
   getMember,
+  addMember,
 };
