@@ -21,9 +21,10 @@ const getAllModules = (req, res) => {
  * @param {Integer} req.params.moduleId - the module id
  * @todo Implement this function
  */
-const getModule = (req, res) => {
-  console.log(req);
-  res.send({ moduleId: req.params.moduleId });
+const getModule = async (req, res) => {
+  const moduleId = req.params.moduleId;
+  const result = await moduleService.getModule(moduleId);
+  res.send(result);
 };
 
 /**

@@ -21,6 +21,12 @@ const getModulesForCourse = async (courseId) => {
   return rows;
 };
 
+/**
+ * Get a specific module
+ * @function
+ * @param {Integer} moduleId - the id of the module to get
+ * @returns Module with given id
+ */
 const getModule = async (moduleId) => {
   const result = await database.query("SELECT * FROM modules WHERE id = ?", [
     moduleId,
@@ -57,5 +63,6 @@ const createNewModule = async (newModule) => {
 
 export default {
   getModulesForCourse,
+  getModule,
   createNewModule,
 };
