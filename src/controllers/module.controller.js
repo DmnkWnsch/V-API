@@ -38,8 +38,40 @@ const getModulesForCourse = async (req, res) => {
   res.json(modules);
 };
 
+/**
+ * Creates a new module
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the module to create
+ */
+const createNewModule = async (req, res) => {
+  const payload = req.body;
+
+  if (!payload.id || !payload.name || !payload.credits) {
+    res.status(400).send({
+      message:
+        "One of the following keys is missing or empty: 'id', 'name', 'credits'",
+    });
+    return;
+  }
+
+  const newModule = {
+    id: payload.id,
+    name: payload.name,
+    credits: payload.credits,
+  };
+
+  try {
+    const createdModule = await moduleService.createNewModule(newModule);
+    res.status(201).send({ data: createdModule });
+  } catch (error) {
+    res.status(error?.status || 500).send({ message: error?.message || error });
+  }
+};
+
 export default {
   getAllModules,
   getModule,
   getModulesForCourse,
+  createNewModule,
 };

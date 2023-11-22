@@ -16,6 +16,15 @@ const moduleRouter = Router();
 moduleRouter.get("/", moduleController.getAllModules);
 
 /**
+ * Route for creating a new module
+ * @name POST /
+ * @bodyparam {Integer} id - the id of the module
+ * @bodyparam {String} name - the name of the module
+ * @bodyparam {Integer} credits - how many credits the module rewards
+ */
+moduleRouter.post("/", moduleController.createNewModule);
+
+/**
  * Route for getting information about a specific module
  * @name GET /:moduleId
  * @routeparam {Integer} moduleId - the id of the module
