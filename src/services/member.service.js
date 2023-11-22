@@ -46,7 +46,7 @@ const addMember = async (newMember) => {
     "SELECT LAST_INSERT_ID(id) AS lid from members order by LAST_INSERT_ID(id) desc limit 1;"
   );
 
-  newMember.memberId = memberId[0].lid;
+  newMember.id = memberId[0].lid;
 
   return newMember;
 };
