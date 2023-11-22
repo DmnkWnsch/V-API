@@ -14,4 +14,12 @@ const examRouter = Router();
  */
 examRouter.get("/", examController.getAllExams);
 
+/**
+ * Route for adding an exam
+ * @name POST /
+ * @bodyparam {Integer} module_id - the id of the module
+ * @bodyparam {Integer} type - the type of the exam
+ */
+examRouter.post("/", examController.addExam);
+
 export default examRouter;
