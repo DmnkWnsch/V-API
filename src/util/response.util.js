@@ -1,3 +1,14 @@
+/**
+ * Utility to work with responses
+ * @module utils/responses
+ */
+
+/**
+ * Sends a response with all expected parameters
+ * @function
+ * @param {Object} response - the express response object
+ * @param {Array[String]} params - list of expected parameters
+ */
 const sendMissingParamsResponse = (response, params) => {
   let missingParams = "";
   params.forEach((item, index) => {
@@ -12,6 +23,12 @@ const sendMissingParamsResponse = (response, params) => {
   });
 };
 
+/**
+ * Sends a response for an error that occured
+ * @function
+ * @param {Object} response - the express response object
+ * @param {Object} error - the error from a catch block
+ */
 const sendDefaultErrorResponse = (response, error) => {
   response
     .status(error?.status || 500)
