@@ -4,6 +4,8 @@
  */
 
 import plannedExamsService from "../services/planned_exams.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Gets all planned exams
@@ -26,12 +28,10 @@ const getPlannedExams = async (req, res) => {
 
 const addPlannedExam = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["exam_id", "date", "register_period_id"];
 
-  if (!payload.exam_id || !payload.date || !payload.register_period_id) {
-    res.status(400).send({
-      message:
-        "One of the keys is missing or empty: 'exam_id', 'date', 'register_period_id'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -45,7 +45,7 @@ const addPlannedExam = async (req, res) => {
     const addedExam = await plannedExamsService.addPlannedExam(newPlannedExam);
     res.status(201).send({ data: addedExam });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

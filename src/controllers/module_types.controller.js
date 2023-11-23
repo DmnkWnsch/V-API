@@ -4,6 +4,8 @@
  */
 
 import moduleTypesService from "../services/module_types.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Add a new module type
@@ -14,17 +16,10 @@ import moduleTypesService from "../services/module_types.service.js";
  */
 const addModuleType = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["course_id", "module_id", "type", "planned_semester"];
 
-  if (
-    !payload.course_id ||
-    !payload.module_id ||
-    !payload.type ||
-    !payload.planned_semester
-  ) {
-    res.status(400).send({
-      message:
-        "One of the keys is missing or empty: 'course_id', 'module_id', 'type', 'planned_semester'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -41,7 +36,7 @@ const addModuleType = async (req, res) => {
     );
     res.status(201).send({ data: createdModuleType });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

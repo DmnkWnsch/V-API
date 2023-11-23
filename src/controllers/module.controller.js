@@ -4,6 +4,8 @@
  */
 
 import moduleService from "../services/module.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Gets all available modules
@@ -47,12 +49,10 @@ const getModulesForCourse = async (req, res) => {
  */
 const createNewModule = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["id", "name", "credits"];
 
-  if (!payload.id || !payload.name || !payload.credits) {
-    res.status(400).send({
-      message:
-        "One of the following keys is missing or empty: 'id', 'name', 'credits'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -66,7 +66,7 @@ const createNewModule = async (req, res) => {
     const createdModule = await moduleService.createNewModule(newModule);
     res.status(201).send({ data: createdModule });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

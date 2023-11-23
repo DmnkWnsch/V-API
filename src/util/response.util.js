@@ -1,4 +1,4 @@
-const createMissingParamsResponse = (response, params) => {
+const sendMissingParamsResponse = (response, params) => {
   let missingParams = "";
   params.forEach((item, index) => {
     if (index !== 0) {
@@ -12,13 +12,13 @@ const createMissingParamsResponse = (response, params) => {
   });
 };
 
-const createDefaultErrorErsponse = (response, error) => {
+const sendDefaultErrorResponse = (response, error) => {
   response
     .status(error?.status || 500)
     .send({ message: error?.message || error });
 };
 
 export default {
-  createMissingParamsResponse,
-  createDefaultErrorErsponse,
+  sendMissingParamsResponse,
+  sendDefaultErrorResponse,
 };

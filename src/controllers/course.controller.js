@@ -4,6 +4,8 @@
  */
 
 import courseService from "../services/course.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Get all available courses
@@ -35,11 +37,10 @@ const getCourse = (req, res) => {
  */
 const createNewCourse = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["name"];
 
-  if (!payload.name) {
-    res.status(400).send({
-      message: "One of the keys is missing or empty: 'name'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -51,7 +52,7 @@ const createNewCourse = async (req, res) => {
     const createdCourse = await courseService.createNewCourse(newCourse);
     res.status(201).send({ data: createdCourse });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

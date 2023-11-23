@@ -4,6 +4,8 @@
  */
 
 import memberService from "../services/member.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Gets all members
@@ -30,12 +32,10 @@ const getMember = async (req, res) => {
 
 const addMember = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["name", "last_name", "role"];
 
-  if (!payload.name || !payload.last_name || !payload.role) {
-    res.status(400).send({
-      message:
-        "One of the keys is missing or empty: 'name', 'last_name', 'role'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -49,7 +49,7 @@ const addMember = async (req, res) => {
     const addedMember = await memberService.addMember(newMember);
     res.status(201).send({ data: addedMember });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

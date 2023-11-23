@@ -33,7 +33,7 @@ const addExaminer = async (req, res) => {
   const expectedParams = ["exam_plan_id", "member_id"];
 
   if (!paramsUtil.allParametersSet(payload, expectedParams)) {
-    responseUtil.createMissingParamsResponse(res, expectedParams);
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -46,7 +46,7 @@ const addExaminer = async (req, res) => {
     const addedExaminer = await examinerService.addExaminer(newExaminer);
     res.status(201).send({ data: addedExaminer });
   } catch (error) {
-    responseUtil.createDefaultErrorErsponse(res, error);
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

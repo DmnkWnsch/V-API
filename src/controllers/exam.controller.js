@@ -4,6 +4,8 @@
  */
 
 import examService from "../services/exam.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Get all available exams
@@ -38,11 +40,10 @@ const getExamsForModule = async (req, res) => {
  */
 const addExam = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["module_id", "type"];
 
-  if (!payload.module_id || !payload.type) {
-    res.status(400).send({
-      message: "One of the keys is missing or empty: 'module_id', 'type'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -55,7 +56,7 @@ const addExam = async (req, res) => {
     const addedExam = await examService.addExam(newExam);
     res.status(201).send({ data: addedExam });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

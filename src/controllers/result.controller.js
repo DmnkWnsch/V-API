@@ -4,6 +4,8 @@
  */
 
 import resultService from "../services/result.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Gets all results a given member has
@@ -28,19 +30,18 @@ const getResultsForMember = async (req, res) => {
  */
 const addNewResult = async (req, res) => {
   const payload = req.body;
-  if (
-    !payload.member_id ||
-    !payload.module_id ||
-    !payload.exam_id ||
-    !payload.try ||
-    !payload.grade ||
-    !payload.term ||
-    !payload.status
-  ) {
-    res.status(400).send({
-      message:
-        "One of the keys is missing or empty: 'member_id', 'module_id', 'exam_id', 'try', 'grade', 'term', 'status'",
-    });
+  const expectedParams = [
+    "member_id",
+    "module_id",
+    "exam_id",
+    "try",
+    "grade",
+    "term",
+    "status",
+  ];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -58,7 +59,7 @@ const addNewResult = async (req, res) => {
     const addedResult = await resultService.addNewResult(newResult);
     res.status(201).send({ data: addedResult });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

@@ -4,6 +4,8 @@
  */
 
 import registrationPeriodService from "../services/registration_period.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Gets all available registration periods
@@ -41,12 +43,10 @@ const getRegistrationPeriod = async (req, res) => {
  */
 const addRegistrationPeriod = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["name", "start_date", "end_date"];
 
-  if (!payload.name || !payload.start_date || !payload.end_date) {
-    res.status(400).send({
-      message:
-        "One of the keys is missing or empty: 'name', 'start_date', 'end_date'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -62,7 +62,7 @@ const addRegistrationPeriod = async (req, res) => {
     );
     res.status(200).send({ data: createdPeriod });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 

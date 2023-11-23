@@ -4,6 +4,8 @@
  */
 
 import registrationService from "../services/registration.service.js";
+import paramsUtil from "../util/params.util.js";
+import responseUtil from "../util/response.util.js";
 
 /**
  * Gets all exams a given member is currently registered for
@@ -30,12 +32,10 @@ const getRegistrationsForMember = async (req, res) => {
 
 const addRegistration = async (req, res) => {
   const payload = req.body;
+  const expectedParams = ["member_id", "exam_plan_id", "status"];
 
-  if (!payload.member_id || !payload.exam_plan_id || !payload.status) {
-    res.status(400).send({
-      message:
-        "One of the keys is missing or empty: 'member_id', 'exam_plan_id', 'status'",
-    });
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
@@ -51,7 +51,7 @@ const addRegistration = async (req, res) => {
     );
     res.status(201).send({ data: addedRegistration });
   } catch (error) {
-    res.status(error?.status || 500).send({ message: error?.message || error });
+    responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
 
