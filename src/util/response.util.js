@@ -7,7 +7,7 @@
  * Sends a response with all expected parameters
  * @function
  * @param {Object} response - the express response object
- * @param {Array[String]} params - list of expected parameters
+ * @param Array[String] params - list of expected parameters
  */
 const sendMissingParamsResponse = (response, params) => {
   let missingParams = "";
