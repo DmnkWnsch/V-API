@@ -46,7 +46,22 @@ const getModuleType = async (moduleId, courseId) => {
   return result;
 };
 
+/**
+ * Gets all course types for the given module
+ * @function
+ * @param {Integer} moduleId - the id of the module
+ * @returns List of types of the module in different courses
+ */
+const getCourseTypesForModule = async (moduleId) => {
+  const result = await database.query(
+    "SELECT * FROM course_module_types WHERE module_id = ?",
+    [moduleId]
+  );
+  return result;
+};
+
 export default {
   getModuleType,
   addModuleType,
+  getCourseTypesForModule,
 };

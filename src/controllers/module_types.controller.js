@@ -40,6 +40,19 @@ const addModuleType = async (req, res) => {
   }
 };
 
+/**
+ * Gets the module types in the different courses
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Integer} req.params.moduleId - the module id
+ */
+const getCourseTypesForModule = async (req, res) => {
+  const moduleId = req.params.moduleId;
+  const result = await moduleTypesService.getCourseTypesForModule(moduleId);
+  res.send(result);
+};
+
 export default {
   addModuleType,
+  getCourseTypesForModule,
 };

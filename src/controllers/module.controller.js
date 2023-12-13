@@ -12,8 +12,9 @@ import responseUtil from "../util/response.util.js";
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const getAllModules = (req, res) => {
-  res.send({ test: "Get all modules" });
+const getAllModules = async (req, res) => {
+  const modules = await moduleService.getAllModules();
+  res.send(modules);
 };
 
 /**
@@ -21,7 +22,6 @@ const getAllModules = (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Integer} req.params.moduleId - the module id
- * @todo Implement this function
  */
 const getModule = async (req, res) => {
   const moduleId = req.params.moduleId;

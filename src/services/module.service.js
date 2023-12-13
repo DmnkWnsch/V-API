@@ -36,6 +36,16 @@ const getModule = async (moduleId) => {
 };
 
 /**
+ * Gets all modules
+ * @function
+ * @returns List of Modules
+ */
+const getAllModules = async () => {
+  const result = await database.query("SELECT * FROM modules");
+  return result;
+};
+
+/**
  * Adds a new module to the database
  * @function
  * @param {Object} newModule - the module to create
@@ -65,4 +75,5 @@ export default {
   getModulesForCourse,
   getModule,
   createNewModule,
+  getAllModules,
 };

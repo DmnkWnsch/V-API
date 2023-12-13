@@ -6,6 +6,7 @@
 import { Router } from "express";
 import moduleController from "../controllers/module.controller.js";
 import examController from "../controllers/exam.controller.js";
+import moduleTypesController from "../controllers/module_types.controller.js";
 
 const moduleRouter = Router();
 
@@ -37,5 +38,15 @@ moduleRouter.get("/:moduleId", moduleController.getModule);
  * @routeparam {Integer} moduleId - the id of the module
  */
 moduleRouter.get("/:moduleId/exams", examController.getExamsForModule);
+
+/**
+ * Route for getting the different module types for the four different courses
+ * @name GET /:moduleId/course-types
+ * @routeparam {Integer} moduleId - the id of the module
+ */
+moduleRouter.get(
+  "/:moduleId/course-types",
+  moduleTypesController.getCourseTypesForModule
+);
 
 export default moduleRouter;
