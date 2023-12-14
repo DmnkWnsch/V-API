@@ -60,8 +60,30 @@ const getCourseTypesForModule = async (moduleId) => {
   return result;
 };
 
+/**
+ * Deletes all course types for a given module id
+ * @function
+ * @param {Integer} moduleId - the id of the module
+ */
+const deleteCourseTypesForModule = async (moduleId) => {
+  const result = await database.query(
+    "DELETE FROM course_module_types WHERE module_id = ?",
+    [moduleId]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Module with id '${moduleId}' doesnt have any course types!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getModuleType,
   addModuleType,
   getCourseTypesForModule,
+  deleteCourseTypesForModule,
 };

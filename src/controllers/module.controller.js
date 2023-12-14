@@ -30,6 +30,23 @@ const getModule = async (req, res) => {
 };
 
 /**
+ * Deletes a module with a given id
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Integer} req.params.moduleId - the module id
+ */
+const deleteModule = async (req, res) => {
+  const moduleId = req.params.moduleId;
+
+  try {
+    const result = await moduleService.deleteModule(moduleId);
+    res.status(200).send({ deleted: moduleId });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
+/**
  * Gets all modules with their type for a specific course
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
@@ -75,4 +92,5 @@ export default {
   getModule,
   getModulesForCourse,
   createNewModule,
+  deleteModule,
 };

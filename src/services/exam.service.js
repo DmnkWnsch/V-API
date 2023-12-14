@@ -70,8 +70,30 @@ const getExamByModuleAndType = async (moduleId, type) => {
   return result;
 };
 
+/**
+ * Deletes all exams for a specific module
+ * @function
+ * @param {Integer} moduleId
+ * @returns List of exams for a given module
+ */
+const deleteExamsForModule = async (moduleId) => {
+  const result = await database.query("DELETE FROM exams WHERE module_id = ?", [
+    moduleId,
+  ]);
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Module with id '${moduleId}' doesnt have any exams!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getAllExams,
   getExamsForModule,
   addExam,
+  deleteExamsForModule,
 };

@@ -71,9 +71,30 @@ const createNewModule = async (newModule) => {
   return newModule;
 };
 
+/**
+ * Delete a specific module
+ * @function
+ * @param {Integer} moduleId - the id of the module to get
+ */
+const deleteModule = async (moduleId) => {
+  const result = await database.query("DELETE FROM modules WHERE id = ?", [
+    moduleId,
+  ]);
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Module with id '${moduleId}' does not exists!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getModulesForCourse,
   getModule,
   createNewModule,
   getAllModules,
+  deleteModule,
 };

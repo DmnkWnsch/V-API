@@ -49,4 +49,28 @@ moduleRouter.get(
   moduleTypesController.getCourseTypesForModule
 );
 
+/**
+ * Route for deleting a specific module
+ * @name DELETE /:moduleId
+ * @routeparam {Integer} moduleId - the id of the module
+ */
+moduleRouter.delete("/:moduleId", moduleController.deleteModule);
+
+/**
+ * Route for deleting all different module types for the four different courses
+ * @name DELETE /:moduleId/course-types
+ * @routeparam {Integer} moduleId - the id of the module
+ */
+moduleRouter.delete(
+  "/:moduleId/course-types",
+  moduleTypesController.deleteCourseTypesForModule
+);
+
+/**
+ * Route for deleting all exams for the module
+ * @name DELETE /:moduleId/exams
+ * @routeparam {Integer} moduleId - the id of the module
+ */
+moduleRouter.delete("/:moduleId/exams", examController.deleteExamsForModule);
+
 export default moduleRouter;

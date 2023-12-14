@@ -60,8 +60,27 @@ const addExam = async (req, res) => {
   }
 };
 
+/**
+ * Deletes all exams for a given module
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.params.moduleId - the module id
+ */
+const deleteExamsForModule = async (req, res) => {
+  const moduleId = req.params.moduleId;
+
+  try {
+    const result = await examService.deleteExamsForModule(moduleId);
+    res.status(200).send({ deleted: moduleId });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   getAllExams,
   getExamsForModule,
   addExam,
+  deleteExamsForModule,
 };
