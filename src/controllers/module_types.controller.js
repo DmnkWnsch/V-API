@@ -40,6 +40,39 @@ const addModuleType = async (req, res) => {
   }
 };
 
+/**
+ * Gets the module types in the different courses
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Integer} req.params.moduleId - the module id
+ */
+const getCourseTypesForModule = async (req, res) => {
+  const moduleId = req.params.moduleId;
+  const result = await moduleTypesService.getCourseTypesForModule(moduleId);
+  res.send(result);
+};
+
+/**
+ * Deletes all course types for a module
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Integer} req.params.moduleId - the module id
+ */
+const deleteCourseTypesForModule = async (req, res) => {
+  const moduleId = req.params.moduleId;
+
+  try {
+    const result = await moduleTypesService.deleteCourseTypesForModule(
+      moduleId
+    );
+    res.status(200).send({ deleted: moduleId });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   addModuleType,
+  getCourseTypesForModule,
+  deleteCourseTypesForModule,
 };

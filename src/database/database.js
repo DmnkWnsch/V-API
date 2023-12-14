@@ -4,8 +4,9 @@ dotenv.config();
 
 const config = {
   host: "85.209.49.177",
-  user: "main",
-  password: process.env.DB_PW,
+  user: "toprak",
+  //password: process.env.DB_PW,
+  password: "7BfPKAmLaSKHeRnY76lF",
   database: "to_praktikum",
 };
 

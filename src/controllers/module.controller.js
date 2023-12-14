@@ -12,8 +12,9 @@ import responseUtil from "../util/response.util.js";
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const getAllModules = (req, res) => {
-  res.send({ test: "Get all modules" });
+const getAllModules = async (req, res) => {
+  const modules = await moduleService.getAllModules();
+  res.send(modules);
 };
 
 /**
@@ -21,12 +22,28 @@ const getAllModules = (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Integer} req.params.moduleId - the module id
- * @todo Implement this function
  */
 const getModule = async (req, res) => {
   const moduleId = req.params.moduleId;
   const result = await moduleService.getModule(moduleId);
   res.send(result);
+};
+
+/**
+ * Deletes a module with a given id
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Integer} req.params.moduleId - the module id
+ */
+const deleteModule = async (req, res) => {
+  const moduleId = req.params.moduleId;
+
+  try {
+    const result = await moduleService.deleteModule(moduleId);
+    res.status(200).send({ deleted: moduleId });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
 };
 
 /**
@@ -75,4 +92,5 @@ export default {
   getModule,
   getModulesForCourse,
   createNewModule,
+  deleteModule,
 };

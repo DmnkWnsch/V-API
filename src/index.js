@@ -10,8 +10,15 @@ import moduleTypesRouter from "./routes/module_types.router.js";
 import resultsRouter from "./routes/result.router.js";
 import examinersRouter from "./routes/examiners.router.js";
 import registrationRouter from "./routes/registration.router.js";
+import cors from "cors";
+
+const corsOptions = {
+  origin: "*",
+  optionSuccessStatus: 200,
+};
 
 const app = express();
+app.use(cors(corsOptions));
 app.use(json());
 app.use(bodyParser.json());
 

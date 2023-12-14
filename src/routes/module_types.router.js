@@ -1,6 +1,6 @@
 /**
  * The router for the module-types route
- * @module router/modules
+ * @module routers/module-types
  */
 
 import { Router } from "express";
