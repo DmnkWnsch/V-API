@@ -18,4 +18,14 @@ const moduleTypesRouter = Router();
  */
 moduleTypesRouter.post("/", moduleTypesController.addModuleType);
 
+/**
+ * Route for updating a module type
+ * @name PUT /
+ * @bodyparam {Integer} course_id - the id of the course
+ * @bodyparam {Integer} module_id - the id of the module
+ * @bodyparam {String} type - the type of the module for the specific course
+ * @bodyparam {Integer} planned_semester - the semester the module is planned for in the specific course
+ */
+moduleTypesRouter.put("/", moduleTypesController.updateModuleType);
+
 export default moduleTypesRouter;
