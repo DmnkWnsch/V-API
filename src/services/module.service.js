@@ -91,10 +91,33 @@ const deleteModule = async (moduleId) => {
   return result;
 };
 
+const updateModule = async (moduleData) => {
+  const result = await database.query(
+    "UPDATE modules SET name = ?, credits = ? WHERE id = ?",
+    [moduleData.name, moduleData.credits, moduleData.id]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Module with id '${moduleData.id}' does not exists!`,
+    };
+  }
+
+  const updatedModule = {
+    id: moduleData.id,
+    name: moduleData.name,
+    credits: moduleData.credits,
+  };
+
+  return updatedModule;
+};
+
 export default {
   getModulesForCourse,
   getModule,
   createNewModule,
   getAllModules,
   deleteModule,
+  updateModule,
 };

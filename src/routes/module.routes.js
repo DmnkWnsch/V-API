@@ -73,4 +73,13 @@ moduleRouter.delete(
  */
 moduleRouter.delete("/:moduleId/exams", examController.deleteExamsForModule);
 
+/**
+ * Route for updating a module
+ * @name PUT /:moduleId
+ * @routeparam {Integer} moduleId - the id of the module
+ * @bodyparam {String} name - the name of the module
+ * @bodyparam {Integer} credits - the credits of the module
+ */
+moduleRouter.put("/:moduleId", moduleController.updateModule);
+
 export default moduleRouter;

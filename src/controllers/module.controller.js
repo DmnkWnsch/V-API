@@ -87,10 +87,47 @@ const createNewModule = async (req, res) => {
   }
 };
 
+/**
+ * Creates a new module
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the module to create
+ */
+const updateModule = async (req, res) => {
+  const payload = req.body;
+  const moduleId = req.params.moduleId;
+  const expectedParams = ["name", "credits"];
+
+  if (!moduleId) {
+    console.log("module id not set");
+    responseUtil.sendMissingRouteParamsResponse(res, ["moduleId"]);
+    return;
+  }
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  const moduleData = {
+    id: moduleId,
+    name: payload.name,
+    credits: payload.credits,
+  };
+
+  try {
+    const updatedModule = await moduleService.updateModule(moduleData);
+    res.status(200).send({ data: updatedModule });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   getAllModules,
   getModule,
   getModulesForCourse,
   createNewModule,
   deleteModule,
+  updateModule,
 };

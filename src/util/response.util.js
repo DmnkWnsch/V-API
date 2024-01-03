@@ -23,6 +23,20 @@ const sendMissingParamsResponse = (response, params) => {
   });
 };
 
+const sendMissingRouteParamsResponse = (response, params) => {
+  let missingParams = "";
+  params.forEach((item, index) => {
+    if (index !== 0) {
+      missingParams += ", ";
+    }
+    missingParams += `'${item}'`;
+  });
+
+  response.status(400).send({
+    message: `One of the following route parameters is missing: ${missingParams}`,
+  });
+};
+
 /**
  * Sends a response for an error that occured
  * @function
@@ -37,5 +51,6 @@ const sendDefaultErrorResponse = (response, error) => {
 
 export default {
   sendMissingParamsResponse,
+  sendMissingRouteParamsResponse,
   sendDefaultErrorResponse,
 };
