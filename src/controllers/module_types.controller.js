@@ -41,6 +41,39 @@ const addModuleType = async (req, res) => {
 };
 
 /**
+ * Add a new module type
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the module type to update
+ */
+const updateModuleType = async (req, res) => {
+  const payload = req.body;
+  const expectedParams = ["course_id", "module_id", "type", "planned_semester"];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  const moduleTypeData = {
+    courseId: payload.course_id,
+    moduleId: payload.module_id,
+    type: payload.type,
+    planned_semester: payload.planned_semester,
+  };
+
+  try {
+    const updatedModuleType = await moduleTypesService.updateModuleType(
+      moduleTypeData
+    );
+    res.status(200).send({ data: updatedModuleType });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
+/**
  * Gets the module types in the different courses
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
@@ -73,6 +106,7 @@ const deleteCourseTypesForModule = async (req, res) => {
 
 export default {
   addModuleType,
+  updateModuleType,
   getCourseTypesForModule,
   deleteCourseTypesForModule,
 };

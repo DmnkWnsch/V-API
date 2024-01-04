@@ -31,6 +31,38 @@ const addModuleType = async (newModuleType) => {
 };
 
 /**
+ * Adds a new module type to the database
+ * @function
+ * @param {Object} moduleTypeData - the payload of the module type to update
+ * @returns {Object} the updated module type
+ */
+const updateModuleType = async (moduleTypeData) => {
+  const moduleId = moduleTypeData.moduleId;
+  const courseId = moduleTypeData.courseId;
+
+  const result = await database.query(
+    "UPDATE course_module_types SET type = ?, planned_semester = ? WHERE course_id = ? AND module_id = ?",
+    [moduleTypeData.type, moduleTypeData.planned_semester, courseId, moduleId]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Moduletype with moduleId '${moduleId}' and courseId '${courseId}' does not exist!`,
+    };
+  }
+
+  const updatedModuleType = {
+    courseId: courseId,
+    moduleId: moduleId,
+    type: moduleTypeData.type,
+    planned_semester: moduleTypeData.planned_semester,
+  };
+
+  return updatedModuleType;
+};
+
+/**
  * Gets a specific module type
  * @function
  * @param {Integer} moduleId - the id of the module
@@ -83,6 +115,7 @@ const deleteCourseTypesForModule = async (moduleId) => {
 
 export default {
   getModuleType,
+  updateModuleType,
   addModuleType,
   getCourseTypesForModule,
   deleteCourseTypesForModule,
