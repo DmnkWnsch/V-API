@@ -22,6 +22,23 @@ const getModulesForCourse = async (courseId) => {
 };
 
 /**
+ * Gets all modules by their type for a specific course
+ * @function
+ * @param {Integer} courseId
+ * @param {String} type - the type of the modules
+ * @returns List of modules for given course
+ */
+const getModulesForCourseWithType = async (courseId, type) => {
+  // Return modules for course x
+  const rows = await database.query(
+    "SELECT course_id, module_id, type, name, credits, planned_semester FROM course_module_types JOIN modules ON course_module_types.module_id=modules.id WHERE `course_id` = ? AND `type` = ? ORDER BY module_id",
+    [courseId, type]
+  );
+
+  return rows;
+};
+
+/**
  * Get a specific module
  * @function
  * @param {Integer} moduleId - the id of the module to get
@@ -115,6 +132,7 @@ const updateModule = async (moduleData) => {
 
 export default {
   getModulesForCourse,
+  getModulesForCourseWithType,
   getModule,
   createNewModule,
   getAllModules,

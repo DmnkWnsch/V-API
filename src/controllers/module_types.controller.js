@@ -104,9 +104,24 @@ const deleteCourseTypesForModule = async (req, res) => {
   }
 };
 
+/**
+ * Gets all unique course types stored in the database
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const getUniqueCourseTypes = async (req, res) => {
+  try {
+    const result = await moduleTypesService.getUniqueCourseTypes();
+    res.status(200).send({ data: result });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   addModuleType,
   updateModuleType,
   getCourseTypesForModule,
   deleteCourseTypesForModule,
+  getUniqueCourseTypes,
 };

@@ -28,4 +28,9 @@ moduleTypesRouter.post("/", moduleTypesController.addModuleType);
  */
 moduleTypesRouter.put("/", moduleTypesController.updateModuleType);
 
+moduleTypesRouter.get(
+  "/available-types",
+  moduleTypesController.getUniqueCourseTypes
+);
+
 export default moduleTypesRouter;

@@ -113,10 +113,29 @@ const deleteCourseTypesForModule = async (moduleId) => {
   return result;
 };
 
+/**
+ * Gets all available types that are stored in the database
+ * @function
+ * @returns {Object} List of course types
+ */
+const getUniqueCourseTypes = async () => {
+  const result = await database.query(
+    "SELECT DISTINCT type FROM course_module_types"
+  );
+
+  let resArray = [];
+  result.forEach((res) => {
+    resArray.push(res.type);
+  });
+
+  return resArray;
+};
+
 export default {
   getModuleType,
   updateModuleType,
   addModuleType,
   getCourseTypesForModule,
   deleteCourseTypesForModule,
+  getUniqueCourseTypes,
 };

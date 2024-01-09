@@ -54,6 +54,17 @@ const deleteModule = async (req, res) => {
  */
 const getModulesForCourse = async (req, res) => {
   const courseId = req.params.courseId;
+  const type = req.query.type;
+
+  if (type) {
+    const result = await moduleService.getModulesForCourseWithType(
+      courseId,
+      type
+    );
+    res.json(result);
+    return;
+  }
+
   const modules = await moduleService.getModulesForCourse(courseId);
   res.json(modules);
 };
