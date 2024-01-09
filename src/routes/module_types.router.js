@@ -28,6 +28,10 @@ moduleTypesRouter.post("/", moduleTypesController.addModuleType);
  */
 moduleTypesRouter.put("/", moduleTypesController.updateModuleType);
 
+/**
+ * Route for getting all available module types
+ * @name GET /available-types
+ */
 moduleTypesRouter.get(
   "/available-types",
   moduleTypesController.getUniqueCourseTypes
