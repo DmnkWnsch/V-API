@@ -108,6 +108,11 @@ const deleteModule = async (moduleId) => {
   return result;
 };
 
+/**
+ * Updates a specific module
+ * @function
+ * @param {Object} moduleData - the data of the module to update
+ */
 const updateModule = async (moduleData) => {
   const result = await database.query(
     "UPDATE modules SET name = ?, credits = ? WHERE id = ?",
