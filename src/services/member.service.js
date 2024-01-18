@@ -51,8 +51,62 @@ const addMember = async (newMember) => {
   return newMember;
 };
 
+/**
+ * Deletes a member
+ * @function
+ * @param {Object} memberId - the id of the member to delete
+ * @returns {Object}
+ */
+const deleteMember = async (memberId) => {
+  const result = await database.query("DELETE FROM members WHERE id = ?", [
+    memberId,
+  ]);
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Member with id '${memberId}' does not exist!`,
+    };
+  }
+
+  return result;
+};
+
+/**
+ * Updates an existing member
+ * @function
+ * @param {Object} memberId - the id of the member to update
+ * @returns {Object}
+ */
+const updateMember = async (memberData) => {
+  const id = memberData.id;
+
+  const result = await database.query(
+    "UPDATE members SET name = ?, last_name = ?, role = ? WHERE id = ?",
+    [memberData.name, memberData.lastName, memberData.role, id]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Member with id '${id}' does not exist!`,
+    };
+  }
+
+  const updatedMember = {
+    id: id,
+    name: memberData.name,
+    lastName: memberData.lastName,
+    role: memberData.role,
+  };
+
+  return updatedMember;
+};
+
 export default {
   getAllMembers,
   getMember,
   addMember,
+  deleteMember,
+  updateMember,
 };

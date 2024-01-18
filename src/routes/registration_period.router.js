@@ -39,4 +39,26 @@ registrationPeriodRouter.post(
   registrationPeriodController.addRegistrationPeriod
 );
 
+/**
+ * Route for updating a registration period
+ * @name PUT /
+ * @routeparam {Integer} id - the id of the period
+ * @bodyparam {Date} start_date - the start date of the period
+ * @bodyparam {Date} end_datte - the end date of the period
+ */
+registrationPeriodRouter.put(
+  "/:periodId",
+  registrationPeriodController.updateRegistrationPeriod
+);
+
+/**
+ * Route for deleting a registration period
+ * @name DELETE /
+ * @routeparam {Integer} id - the id of the period
+ */
+registrationPeriodRouter.delete(
+  "/:periodId",
+  registrationPeriodController.deleteRegistrationPeriod
+);
+
 export default registrationPeriodRouter;

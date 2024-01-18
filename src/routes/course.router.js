@@ -33,6 +33,7 @@ courseRouter.get("/:courseId", courseController.getCourse);
  * Route for getting all modules for a given course
  * @name GET /:courseId/modules
  * @routeparam {Integer} courseId - the id of the course
+ * @queryparam {String} type [type=BASE] - the type of the modules to get
  */
 courseRouter.get("/:courseId/modules", moduleController.getModulesForCourse);
 

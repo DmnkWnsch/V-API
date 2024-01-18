@@ -7,6 +7,7 @@ import { Router } from "express";
 import registrationController from "../controllers/registration.controller.js";
 import memberController from "../controllers/member.controller.js";
 import resultController from "../controllers/result.controller.js";
+import memberService from "../services/member.service.js";
 
 const memberRouter = Router();
 
@@ -48,5 +49,22 @@ memberRouter.get("/:memberId/results", resultController.getResultsForMember);
  * @bodyparam {String} role - the role of the member
  */
 memberRouter.post("/", memberController.addMember);
+
+/**
+ * Route for deleting a member
+ * @name DELETE /
+ * @routeparam {Integer} memberId - the id of the member to get
+ */
+memberRouter.delete("/:memberId", memberController.deleteMember);
+
+/**
+ * Route for updating a member
+ * @name PUT /
+ * @routeparam {Integer} memberId - the id of the member
+ * @bodyparam {String} name - first name of the member
+ * @bodyparam {String} last_name - last name of the member
+ * @bodyparam {String} role - the role of the member
+ */
+memberRouter.put("/:memberId", memberController.updateMember);
 
 export default memberRouter;

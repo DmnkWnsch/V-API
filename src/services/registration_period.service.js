@@ -11,7 +11,9 @@ import database from "../database/database.js";
  * @returns List of all registration periods
  */
 const getRegistrationPeriods = async () => {
-  const result = await database.query("SELECT * FROM register_periods");
+  const result = await database.query(
+    "SELECT * FROM register_periods ORDER BY start_date DESC"
+  );
   return result;
 };
 
@@ -70,9 +72,63 @@ const addRegistrationPeriod = async (newPeriod) => {
   return newPeriod;
 };
 
+/**
+ * Updates an existing registration period
+ * @function
+ * @param {Object} periodData - the data to update
+ * @returns {Object} the updated period data
+ */
+const updateRegistrationPeriod = async (periodData) => {
+  const id = periodData.id;
+
+  const result = await database.query(
+    "UPDATE register_periods SET start_date = ?, end_date = ? WHERE id = ?",
+    [periodData.start_date, periodData.end_date, id]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Registration period with id '${id}' does not exist!`,
+    };
+  }
+
+  const updatedPeriod = {
+    id: id,
+    start_date: start_date,
+    end_date: end_date,
+  };
+
+  return updatedPeriod;
+};
+
+/**
+ * Deletes a specific registration period
+ * @function
+ * @param {Object} periodData - the data to update
+ * @returns {Object} the updated period data
+ */
+const deleteRegistrationPeriod = async (periodId) => {
+  const result = await database.query(
+    "DELETE FROM register_periods WHERE id = ?",
+    [periodId]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Registration period with id '${id}' does not exist!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getRegistrationPeriods,
   getRegistrationPeriod,
   getRegistrationPeriodByName,
   addRegistrationPeriod,
+  updateRegistrationPeriod,
+  deleteRegistrationPeriod,
 };
