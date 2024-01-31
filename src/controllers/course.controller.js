@@ -13,8 +13,13 @@ import responseUtil from "../util/response.util.js";
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const getAllCourses = (req, res) => {
-  res.send({ test: "Get all courses" });
+const getAllCourses = async (req, res) => {
+  try {
+    const courses = await courseService.getAllCourses();
+    res.status(200).send(courses);
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
 };
 
 /**

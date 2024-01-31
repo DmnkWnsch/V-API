@@ -33,6 +33,17 @@ const createNewCourse = async (newCourse) => {
 };
 
 /**
+ * Gets all courses
+ * @function
+ * @returns List of courses
+ */
+const getAllCourses = async () => {
+  const result = await database.query("SELECT * FROM courses ORDER BY id");
+
+  return result;
+};
+
+/**
  * Checks whatever a course with a given name already exists
  * @function
  * @param {String} courseName - the name of the course
@@ -48,5 +59,6 @@ const courseExists = async (courseName) => {
 };
 
 export default {
+  getAllCourses,
   createNewCourse,
 };
