@@ -5,6 +5,7 @@
 
 import { Router } from "express";
 import examController from "../controllers/exam.controller.js";
+import planned_examsController from "../controllers/planned_exams.controller.js";
 
 const examRouter = Router();
 
@@ -21,5 +22,10 @@ examRouter.get("/", examController.getAllExams);
  * @bodyparam {Integer} type - the type of the exam
  */
 examRouter.post("/", examController.addExam);
+
+examRouter.get(
+  "/:examId/planned-exams",
+  planned_examsController.getPlannedExamsById
+);
 
 export default examRouter;

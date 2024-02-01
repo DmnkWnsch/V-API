@@ -48,13 +48,13 @@ const addNewResult = async (newResult) => {
   const moduleId = newResult.moduleId;
   const examId = newResult.examId;
 
-  const dbResult = await getResult(memberId, moduleId, examId);
+  /*const dbResult = await getResult(memberId, moduleId, examId);
   if (dbResult.length > 0) {
     throw {
       status: 400,
       message: `Result with member_id '${memberId}', module_id '${moduleId}' and exam_id '${examId}' already exists!`,
     };
-  }
+  }*/
 
   await database.query(
     "INSERT INTO results (member_id, module_id, exam_id, try, grade, term, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -72,8 +72,18 @@ const addNewResult = async (newResult) => {
   return newResult;
 };
 
+const getTriesForMember = async (memberId, moduleId, examId) => {
+  const result = await database.query(
+    "SELECT * FROM results WHERE member_id = ? AND module_id = ? AND exam_id = ?",
+    [memberId, moduleId, examId]
+  );
+
+  return result.length;
+};
+
 export default {
   getResultsForMember,
   getResult,
   addNewResult,
+  getTriesForMember,
 };

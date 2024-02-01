@@ -19,6 +19,23 @@ const getPlannedExams = async (req, res) => {
 };
 
 /**
+ * Gets all planned exams for exam id
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const getPlannedExamsById = async (req, res) => {
+  const examId = req.params.examId;
+
+  try {
+    const result = await plannedExamsService.getPlannedExamsById(examId);
+    res.status(200).json(result);
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
+/**
  * Adds a new exam to the plan
  * @function
  * @param {Object} req - Express request object
@@ -51,5 +68,6 @@ const addPlannedExam = async (req, res) => {
 
 export default {
   getPlannedExams,
+  getPlannedExamsById,
   addPlannedExam,
 };

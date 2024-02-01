@@ -33,6 +33,21 @@ const getPlannedExam = async (exam_id, date) => {
 };
 
 /**
+ * Gets all exams in the plan for given exam id
+ * @function
+ * @param {Integer} exam_id - the id of the exam
+ * @returns The exams in the plan
+ */
+const getPlannedExamsById = async (exam_id) => {
+  const result = await database.query(
+    "SELECT * FROM exam_plan JOIN register_periods ON exam_plan.register_period_id=register_periods.id WHERE exam_id = ?",
+    [exam_id]
+  );
+
+  return result;
+};
+
+/**
  * Adds a new planned exam to the database
  * @function
  * @param {Object} newPlannedExam - the object of the planned exam to add
@@ -63,4 +78,5 @@ const addPlannedExam = async (newPlannedExam) => {
 export default {
   getPlannedExams,
   addPlannedExam,
+  getPlannedExamsById,
 };
