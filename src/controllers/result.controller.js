@@ -30,29 +30,36 @@ const getResultsForMember = async (req, res) => {
  */
 const addNewResult = async (req, res) => {
   const payload = req.body;
-  const expectedParams = [
-    "member_id",
-    "module_id",
-    "exam_id",
-    "try",
-    "grade",
-    "term",
-    "status",
-  ];
+  const expectedParams = ["member_id", "module_id", "exam_id", "grade", "term"];
 
   if (!paramsUtil.allParametersSet(payload, expectedParams)) {
     responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
   }
 
+  const grade = payload.grade;
+  const status = grade > 4 ? "FAILED" : "PASSED";
+
+  const memberId = payload.member_id;
+  const moduleId = payload.module_id;
+  const examId = payload.exam_id;
+
+  const currentTriesForExam = await resultService.getTriesForMember(
+    memberId,
+    moduleId,
+    examId
+  );
+
+  const tryValue = currentTriesForExam + 1;
+
   const newResult = {
     memberId: payload.member_id,
     moduleId: payload.module_id,
     examId: payload.exam_id,
-    try: payload.try,
+    try: tryValue,
     grade: payload.grade,
     term: payload.term,
-    status: payload.status,
+    status: status,
   };
 
   try {

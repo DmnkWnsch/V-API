@@ -21,9 +21,10 @@ const getAllExams = async () => {
  * @returns List of exams for a given module
  */
 const getExamsForModule = async (moduleId) => {
-  return await database.query("SELECT * FROM exams WHERE module_id = ?", [
-    moduleId,
-  ]);
+  return await database.query(
+    "SELECT * FROM exams WHERE module_id = ? ORDER BY FIELD(type, 'WRITTEN', 'ORAL', 'SEMINAR_PAPER', 'TASKS', 'LABORATORY')",
+    [moduleId]
+  );
 };
 
 /**

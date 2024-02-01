@@ -14,10 +14,8 @@ const resultsRouter = Router();
  * @bodyparam {Integer} member_id - the id of the member
  * @bodyparam {Integer} module_id - the id of the module
  * @bodyparam {Integer} exam_id - the id of the exam
- * @bodyparam {Integer} try - the try of the exam
  * @bodyparam {Decimal} grade - the exams grade
  * @bodyparam {String} term - the term of the exam
- * @bodyparam {String} status - the status of the exam
  */
 resultsRouter.post("/", resultController.addNewResult);
 
