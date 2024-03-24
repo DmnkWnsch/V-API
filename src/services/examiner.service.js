@@ -12,7 +12,7 @@ import database from "../database/database.js";
  */
 const getExaminersForExam = async (examPlanId) => {
   const result = await database.query(
-    "SELECT * FROM examiner WHERE exam_plan_id = ?",
+    "SELECT id, name, last_name, exam_plan_id FROM members JOIN examiner ON members.id=examiner.member_id WHERE exam_plan_id = ?",
     [examPlanId]
   );
 

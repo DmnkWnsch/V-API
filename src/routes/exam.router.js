@@ -23,6 +23,10 @@ examRouter.get("/", examController.getAllExams);
  */
 examRouter.post("/", examController.addExam);
 
+/**
+ * Route for getting planned exams for a given exam id
+ * @name GET /:examId/planned-exams
+ */
 examRouter.get(
   "/:examId/planned-exams",
   planned_examsController.getPlannedExamsById
