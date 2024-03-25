@@ -27,7 +27,7 @@ const getExaminersForExam = async (examPlanId) => {
  */
 const getExaminerForExam = async (examPlanId, memberId) => {
   const result = await database.query(
-    "SELECT * FROM examiner WHERE `exam_plan_id` = ? AND `member_id` = ?",
+    "SELECT id, name, last_name, exam_plan_id FROM members JOIN examiner ON members.id=examiner.member_id WHERE `exam_plan_id` = ? AND `member_id` = ?",
     [examPlanId, memberId]
   );
 
@@ -54,10 +54,34 @@ const addExaminer = async (newExaminer) => {
     "INSERT INTO examiner (exam_plan_id, member_id) VALUES (?, ?)",
     [examPlanId, memberId]
   );
-  return newExaminer;
+
+  const addedExaminer = await getExaminerForExam(examPlanId, memberId);
+  return addedExaminer.length > 0 ? addedExaminer[0] : {};
+};
+
+/**
+ * Deletes an existing examiner
+ * @param {Integer} examPlanId - the id of the planned exam
+ * @returns {Object} The added examiner
+ */
+const deleteExaminer = async (examPlanId, memberId) => {
+  const result = await database.query(
+    "DELETE FROM examiner WHERE `exam_plan_id` = ? AND `member_id` = ?",
+    [examPlanId, memberId]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Examiner with id '${memberId}' was not registered!`,
+    };
+  }
+
+  return result;
 };
 
 export default {
   getExaminersForExam,
   addExaminer,
+  deleteExaminer,
 };
