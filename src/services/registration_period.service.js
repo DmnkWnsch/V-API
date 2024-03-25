@@ -95,8 +95,8 @@ const updateRegistrationPeriod = async (periodData) => {
 
   const updatedPeriod = {
     id: id,
-    start_date: start_date,
-    end_date: end_date,
+    start_date: periodData.start_date,
+    end_date: periodData.end_date,
   };
 
   return updatedPeriod;
