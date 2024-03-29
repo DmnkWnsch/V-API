@@ -16,10 +16,15 @@ import responseUtil from "../util/response.util.js";
  */
 const getRegistrationsForMember = async (req, res) => {
   const memberId = req.params.memberId;
-  const registrations = await registrationService.getRegistrationsForMember(
-    memberId
-  );
-  res.json(registrations);
+
+  try {
+    const registrations = await registrationService.getRegistrationsForMember(
+      memberId
+    );
+    res.status(200).send({ data: registrations });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
 };
 
 /**
@@ -29,7 +34,6 @@ const getRegistrationsForMember = async (req, res) => {
  * @param {Object} res - Express response object
  * @param req.body - the payload for the registration to add
  */
-
 const addRegistration = async (req, res) => {
   const payload = req.body;
   const expectedParams = ["member_id", "exam_plan_id", "status"];
@@ -55,7 +59,67 @@ const addRegistration = async (req, res) => {
   }
 };
 
+/**
+ * Deletes a registration
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the registration to delete
+ */
+const deleteRegistration = async (req, res) => {
+  const payload = req.body;
+  const expectedParams = ["member_id", "exam_plan_id"];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  try {
+    const deletedRegistration = await registrationService.deleteRegistration(
+      payload.member_id,
+      payload.exam_plan_id
+    );
+
+    res.status(200).send({ data: deletedRegistration });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
+/**
+ * Deletes an existing registration
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the registration to delete
+ */
+const updateRegistrationState = async (req, res) => {
+  const payload = req.body;
+  const expectedParams = ["member_id", "exam_plan_id", "state"];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  try {
+    const updatedRegistration =
+      await registrationService.updateRegistrationState(
+        payload.member_id,
+        payload.exam_plan_id,
+        payload.state
+      );
+
+    res.status(200).send({ data: updatedRegistration });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   getRegistrationsForMember,
   addRegistration,
+  deleteRegistration,
+  updateRegistrationState,
 };

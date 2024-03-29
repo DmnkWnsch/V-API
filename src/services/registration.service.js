@@ -13,7 +13,7 @@ import database from "../database/database.js";
  */
 const getRegistrationsForMember = async (memberId) => {
   const result = await database.query(
-    "SELECT status, exam_id, date, term, module_id, type FROM exam_registrations JOIN exam_plan ON exam_plan.uid=exam_registrations.exam_plan_id JOIN exams ON exam_plan.exam_id=exams.id WHERE member_id = ?",
+    "SELECT status, exam_id, date, module_id, type, register_period_id, exam_plan_id FROM exam_registrations JOIN exam_plan ON exam_registrations.exam_plan_id=exam_plan.uid JOIN exams ON exam_plan.exam_id=exams.id WHERE member_id = ?",
     [memberId]
   );
 
@@ -61,7 +61,52 @@ const getRegistration = async (memberId, examPlanId) => {
   return result;
 };
 
+/**
+ * Deletes an existing exam registration
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} examPlanId - the id of the planned exam
+ */
+const deleteRegistration = async (memberId, examPlanId) => {
+  const result = await database.query(
+    "DELETE FROM exam_registrations WHERE member_id = ? AND exam_plan_id = ?",
+    [memberId, examPlanId]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Registration for ${examPlanId} by ${memberId} was not found!`,
+    };
+  }
+
+  return result;
+};
+
+/**
+ * Updates the state of a registration
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} examPlanId - the id of the planned exam
+ * @param {String} state - the new state of the registration
+ */
+const updateRegistrationState = async (memberId, examPlanId, newState) => {
+  const result = await database.query(
+    "UPDATE exam_registrations SET `status` = ? WHERE member_id = ? AND exam_plan_id = ?",
+    [newState, memberId, examPlanId]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Registration for ${examPlanId} by ${memberId} was not found!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getRegistrationsForMember,
   addRegistration,
+  deleteRegistration,
+  updateRegistrationState,
 };
