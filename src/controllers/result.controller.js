@@ -70,7 +70,70 @@ const addNewResult = async (req, res) => {
   }
 };
 
+/**
+ * Deletes a result from the database
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the result to add
+ */
+const deleteResult = async (req, res) => {
+  const payload = req.body;
+  const expectedParams = ["member_id", "exam_id", "try"];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  try {
+    const deletedResult = await resultService.deleteResult(
+      payload.member_id,
+      payload.exam_id,
+      payload.try
+    );
+
+    res.status(200).send({ data: deletedResult });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
+/**
+ * Updates the grade for a specific result
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the result to add
+ */
+const updateResult = async (req, res) => {
+  const payload = req.body;
+  const expectedParams = ["member_id", "exam_id", "try", "grade"];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  try {
+    const status = payload.grade > 4 ? "FAILED" : "PASSED";
+    const updatedResult = await resultService.updateResult(
+      payload.member_id,
+      payload.exam_id,
+      payload.try,
+      payload.grade,
+      status
+    );
+
+    res.status(200).send({ data: updatedResult });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   getResultsForMember,
   addNewResult,
+  deleteResult,
+  updateResult,
 };
