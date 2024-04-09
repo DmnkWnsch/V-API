@@ -104,9 +104,26 @@ const updateRegistrationState = async (memberId, examPlanId, newState) => {
   return result;
 };
 
+const deleteRegistrationsForPlannedExam = async (examPlanId) => {
+  const result = await database.query(
+    "DELETE FROM exam_registrations WHERE exam_plan_id = ?",
+    [examPlanId]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `The planned exam for id ${examPlanId} was not found!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getRegistrationsForMember,
   addRegistration,
   deleteRegistration,
   updateRegistrationState,
+  deleteRegistrationsForPlannedExam,
 };
