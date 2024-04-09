@@ -75,8 +75,52 @@ const addPlannedExam = async (newPlannedExam) => {
   return newPlannedExam;
 };
 
+/**
+ * Deletes a planned exam
+ * @param {Integer} uid - the uid of the planned exam
+ * @returns
+ */
+const deletePlannedExam = async (uid) => {
+  const result = await database.query("DELETE FROM exam_plan WHERE uid = ?", [
+    uid,
+  ]);
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `The specified planned exam was not found (uid ${uid})`,
+    };
+  }
+
+  return result;
+};
+
+/**
+ * Updates the date for a planned exam
+ * @param {Integer} uid - the uid of the planned exam
+ * @param {String} newDate - the new date
+ * @returns
+ */
+const updatePlannedExam = async (uid, newDate) => {
+  const result = await database.query(
+    "UPDATE exam_plan SET date = ? WHERE uid = ?",
+    [newDate, uid]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `The specified planned exam was not found (uid ${uid})`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getPlannedExams,
   addPlannedExam,
   getPlannedExamsById,
+  deletePlannedExam,
+  updatePlannedExam,
 };

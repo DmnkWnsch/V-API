@@ -34,4 +34,19 @@ plannedExamsRouter.get(
  */
 plannedExamsRouter.post("/", plannedExamsController.addPlannedExam);
 
+/**
+ * Route for deleting a planned exam
+ * @name DELETE /
+ * @bodyparam {Integer} plan_id - the id of the exam
+ */
+plannedExamsRouter.delete("/", plannedExamsController.deletePlannedExam);
+
+/**
+ * Route for updating the date of a planned exam
+ * @name PATCH /
+ * @bodyparam {Integer} plan_id - the id of the exam
+ * @bodyparam {Date} date - the date of the exam
+ */
+plannedExamsRouter.patch("/", plannedExamsController.updatePlannedExam);
+
 export default plannedExamsRouter;
