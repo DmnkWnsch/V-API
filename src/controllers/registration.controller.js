@@ -117,9 +117,35 @@ const updateRegistrationState = async (req, res) => {
   }
 };
 
+/**
+ * Gets all registrations for a planned exam
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the registration to delete
+ */
+const getRegistrationsForPlannedExam = async (req, res) => {
+  const plannedExamId = req.params.examPlanId;
+
+  if (!plannedExamId) {
+    responseUtil.sendMissingRouteParamsResponse(res, ["examPlanId"]);
+    return;
+  }
+
+  try {
+    const registrations =
+      await registrationService.getRegistrationsForPlannedExam(plannedExamId);
+
+    res.status(200).send({ data: registrations });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   getRegistrationsForMember,
   addRegistration,
   deleteRegistration,
   updateRegistrationState,
+  getRegistrationsForPlannedExam,
 };

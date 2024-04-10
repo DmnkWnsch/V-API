@@ -13,7 +13,7 @@ import database from "../database/database.js";
  */
 const getRegistrationsForMember = async (memberId) => {
   const result = await database.query(
-    "SELECT status, exam_id, date, module_id, type, register_period_id, exam_plan_id FROM exam_registrations JOIN exam_plan ON exam_registrations.exam_plan_id=exam_plan.uid JOIN exams ON exam_plan.exam_id=exams.id WHERE member_id = ?",
+    "SELECT status, exam_id, date, module_id, type, register_period_id, exam_plan_id, name FROM exam_registrations JOIN exam_plan ON exam_registrations.exam_plan_id=exam_plan.uid JOIN exams ON exam_plan.exam_id=exams.id JOIN register_periods ON register_periods.id=exam_plan.register_period_id WHERE member_id = ?",
     [memberId]
   );
 
@@ -104,6 +104,11 @@ const updateRegistrationState = async (memberId, examPlanId, newState) => {
   return result;
 };
 
+/**
+ * Deletes ALL registrations for a planned exam
+ * @param {Integer} examPlanId - the uid of the planned exam
+ * @returns
+ */
 const deleteRegistrationsForPlannedExam = async (examPlanId) => {
   const result = await database.query(
     "DELETE FROM exam_registrations WHERE exam_plan_id = ?",
@@ -120,10 +125,57 @@ const deleteRegistrationsForPlannedExam = async (examPlanId) => {
   return result;
 };
 
+/**
+ * Deletes a registration for an exam
+ * Used for deleting the registration when the member got a result for it
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} examId - the id of the exam
+ */
+const deleteRegistrationForExam = async (memberId, examId, term) => {
+  const result = await database.query(
+    "DELETE R FROM exam_registrations R JOIN exam_plan ON exam_plan.uid=R.exam_plan_id JOIN register_periods ON register_periods.id=exam_plan.register_period_id WHERE member_id = ? AND exam_id = ? AND name = ?",
+    [memberId, examId, term]
+  );
+
+  return result;
+};
+
+/**
+ * Gets registration for a given member for a given exam
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} examId - the id of the exam
+ * @returns
+ */
+const getRegistrationForMemberAndExamId = async (memberId, examId) => {
+  const result = await database.query(
+    "SELECT * FROM exam_registrations JOIN exam_plan ON exam_plan.uid=exam_registrations.exam_plan_id JOIN register_periods ON register_periods.id=exam_plan.register_period_id WHERE member_id = ? AND exam_id = ?",
+    [memberId, examId]
+  );
+
+  return result;
+};
+
+/**
+ * Gets all registrations for a specific planned exam
+ * @param {Integer} examPlanId - the id of the planned exam
+ * @returns
+ */
+const getRegistrationsForPlannedExam = async (examPlanId) => {
+  const result = await database.query(
+    "SELECT * FROM exam_registrations JOIN members ON members.id=exam_registrations.member_id JOIN exam_plan ON exam_plan.uid=exam_registrations.exam_plan_id WHERE exam_plan_id = ?",
+    [examPlanId]
+  );
+
+  return result;
+};
+
 export default {
   getRegistrationsForMember,
   addRegistration,
   deleteRegistration,
   updateRegistrationState,
   deleteRegistrationsForPlannedExam,
+  deleteRegistrationForExam,
+  getRegistrationForMemberAndExamId,
+  getRegistrationsForPlannedExam,
 };

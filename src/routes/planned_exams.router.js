@@ -6,6 +6,7 @@
 import { Router } from "express";
 import plannedExamsController from "../controllers/planned_exams.controller.js";
 import examinerController from "../controllers/examiner.controller.js";
+import registrationController from "../controllers/registration.controller.js";
 
 const plannedExamsRouter = Router();
 
@@ -18,11 +19,21 @@ plannedExamsRouter.get("/", plannedExamsController.getPlannedExams);
 /**
  * Route for getting all examiners for a planned exam
  * @name GET /:examPlanId/examiners
- * @routeparam {Ineteger} examPlanId - the id of the exam in the exam plan
+ * @routeparam {Integer} examPlanId - the id of the exam in the exam plan
  */
 plannedExamsRouter.get(
   "/:examPlanId/examiners",
   examinerController.getExaminersForExam
+);
+
+/**
+ * Route for getting all registrations for a planned exam
+ * @name GET /:examPlanId/registrations
+ * @routeparam {Integer} examPlanId - the id of the exam in the exam plan
+ */
+plannedExamsRouter.get(
+  "/:examPlanId/registrations",
+  registrationController.getRegistrationsForPlannedExam
 );
 
 /**

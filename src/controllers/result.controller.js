@@ -3,6 +3,8 @@
  * @module controller/results
  */
 
+import examService from "../services/exam.service.js";
+import registrationService from "../services/registration.service.js";
 import resultService from "../services/result.service.js";
 import paramsUtil from "../util/params.util.js";
 import responseUtil from "../util/response.util.js";
@@ -64,6 +66,56 @@ const addNewResult = async (req, res) => {
 
   try {
     const addedResult = await resultService.addNewResult(newResult);
+
+    // if type of exam was "TASKS", the written exam should be set to "ALLOWED"
+    // if it was on "CONDITIONAL" before (only if there is a registration for it)
+    if (addedResult) {
+      const examType = await examService.getTypeOfExam(examId);
+      if (examType[0].type == "TASKS" && status == "PASSED") {
+        // Exam was tasks and they are passed,
+        // so we can check if there is a registration
+        // for a written exam for the same module
+        const writtenExam = await examService.getExamByModuleAndType(
+          moduleId,
+          "WRITTEN"
+        );
+        if (writtenExam.length > 0) {
+          const writtenExamId = writtenExam[0].id;
+          const regs =
+            await registrationService.getRegistrationForMemberAndExamId(
+              memberId,
+              writtenExamId
+            );
+
+          if (regs.length > 0) {
+            let targetRegistration;
+            regs.forEach((reg) => {
+              if (reg.name == newResult.term) {
+                targetRegistration = reg;
+              }
+            });
+
+            if (targetRegistration) {
+              await registrationService.updateRegistrationState(
+                memberId,
+                targetRegistration.exam_plan_id,
+                "ALLOWED"
+              );
+            }
+          }
+        }
+      }
+    }
+
+    // if adding the result is successful, we can delete the registration
+    if (addedResult) {
+      registrationService.deleteRegistrationForExam(
+        memberId,
+        examId,
+        newResult.term
+      );
+    }
+
     res.status(201).send({ data: addedResult });
   } catch (error) {
     responseUtil.sendDefaultErrorResponse(res, error);
