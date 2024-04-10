@@ -28,6 +28,20 @@ const getExamsForModule = async (moduleId) => {
 };
 
 /**
+ * Gets information about an exam
+ * @param {Integer} examId - the id of the exam
+ * @returns
+ */
+const getExamInformation = async (examId) => {
+  const result = database.query(
+    "SELECT * FROM exams JOIN modules ON exams.module_id=modules.id WHERE exams.id = ?",
+    [examId]
+  );
+
+  return result;
+};
+
+/**
  * Adds an exam to the database
  * @function
  * @param {Object} newExam - the object of the exam to add
@@ -92,9 +106,32 @@ const deleteExamsForModule = async (moduleId) => {
   return result;
 };
 
+/**
+ * Gets the type for a specific exam
+ * @param {Integer} examId - the id of the exam
+ * @returns
+ */
+const getTypeOfExam = async (examId) => {
+  const result = await database.query("SELECT type FROM exams WHERE id = ?", [
+    examId,
+  ]);
+
+  if (result.length == 0) {
+    throw {
+      status: 400,
+      message: `The exam with id ${examId} was not found!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getAllExams,
   getExamsForModule,
   addExam,
   deleteExamsForModule,
+  getTypeOfExam,
+  getExamByModuleAndType,
+  getExamInformation,
 };

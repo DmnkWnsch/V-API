@@ -16,6 +16,12 @@ const examRouter = Router();
 examRouter.get("/", examController.getAllExams);
 
 /**
+ * Route for getting information about a specific exam
+ * @name GET /:examId
+ */
+examRouter.get("/:examId", examController.getExamInformation);
+
+/**
  * Route for adding an exam
  * @name POST /
  * @bodyparam {Integer} module_id - the id of the module
