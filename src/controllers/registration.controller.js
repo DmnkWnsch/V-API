@@ -36,11 +36,17 @@ const getRegistrationsForMember = async (req, res) => {
  */
 const addRegistration = async (req, res) => {
   const payload = req.body;
-  const expectedParams = ["member_id", "exam_plan_id", "status"];
+  const expectedParams = ["member_id", "exam_plan_id"];
 
   if (!paramsUtil.allParametersSet(payload, expectedParams)) {
     responseUtil.sendMissingParamsResponse(res, expectedParams);
     return;
+  }
+
+  // If the payload doesnt contain a status, check if the exam has
+  // tasks, if they are passed => allowed, otherwise conditional
+  if (!payload.status) {
+    payload.status = "ALLOWED";
   }
 
   const newRegistration = {

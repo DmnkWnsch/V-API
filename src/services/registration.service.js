@@ -13,7 +13,7 @@ import database from "../database/database.js";
  */
 const getRegistrationsForMember = async (memberId) => {
   const result = await database.query(
-    "SELECT status, exam_id, date, module_id, type, register_period_id, exam_plan_id, name FROM exam_registrations JOIN exam_plan ON exam_registrations.exam_plan_id=exam_plan.uid JOIN exams ON exam_plan.exam_id=exams.id JOIN register_periods ON register_periods.id=exam_plan.register_period_id WHERE member_id = ?",
+    "SELECT status, exam_id, date, module_id, type, register_period_id, exam_plan_id, register_periods.name, modules.name AS module_name, modules.credits FROM exam_registrations JOIN exam_plan ON exam_registrations.exam_plan_id=exam_plan.uid JOIN exams ON exam_plan.exam_id=exams.id JOIN register_periods ON register_periods.id=exam_plan.register_period_id JOIN modules ON modules.id=exams.module_id WHERE member_id = ?",
     [memberId]
   );
 
