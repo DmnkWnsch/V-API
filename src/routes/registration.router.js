@@ -14,6 +14,7 @@ const registrationRouter = Router();
  * @bodyparam {Integer} member_id - the id of the member
  * @bodyparam {Integer} exam_plan_id - the id of the planned exam
  * @bodyparam {String} status - the status of the registration
+ * @bodyparam {Boolean} admin - whatever to skip time constraints for regs or not
  */
 registrationRouter.post("/", registrationController.addRegistration);
 
@@ -32,6 +33,7 @@ registrationRouter.get(
  * @name DELETE /
  * @bodyparam {Integer} member_id - the id of the member
  * @bodyparam {Integer} exam_plan_id - the id of the planned exam
+ * @bodyparam {Boolean} admin - whatever to skip time constraints for deletion or not
  */
 registrationRouter.delete("/", registrationController.deleteRegistration);
 
