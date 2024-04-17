@@ -31,6 +31,15 @@ const getRegistrationPeriod = async (periodId) => {
   return result;
 };
 
+const getRegistrationPeriodByPlannedExam = async (examPlanId) => {
+  const result = await database.query(
+    "SELECT id, name, start_date, end_date FROM register_periods JOIN exam_plan ON register_periods.id=exam_plan.register_period_id WHERE exam_plan.uid = ?",
+    [examPlanId]
+  );
+
+  return result;
+};
+
 /**
  * Gets information about a specific registration period
  * @function
@@ -131,4 +140,5 @@ export default {
   addRegistrationPeriod,
   updateRegistrationPeriod,
   deleteRegistrationPeriod,
+  getRegistrationPeriodByPlannedExam,
 };

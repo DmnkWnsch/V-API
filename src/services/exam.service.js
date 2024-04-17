@@ -126,6 +126,20 @@ const getTypeOfExam = async (examId) => {
   return result;
 };
 
+/**
+ * Gets a list of all exams of a module by searching via the id of a planned exam
+ * @param {Integer} examPlanId - the id of the planned exam
+ * @returns
+ */
+const getModuleExamsByPlannedExam = async (examPlanId) => {
+  const result = await database.query(
+    "SELECT * FROM exams WHERE module_id = (SELECT module_id FROM exam_plan JOIN exams ON exam_plan.exam_id=exams.id WHERE uid = ?)",
+    [examPlanId]
+  );
+
+  return result;
+};
+
 export default {
   getAllExams,
   getExamsForModule,
@@ -134,4 +148,5 @@ export default {
   getTypeOfExam,
   getExamByModuleAndType,
   getExamInformation,
+  getModuleExamsByPlannedExam,
 };

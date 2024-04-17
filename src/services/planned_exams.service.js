@@ -33,6 +33,18 @@ const getPlannedExam = async (exam_id, date) => {
 };
 
 /**
+ * Gets a planned exem by its uid in the exam plan
+ * @param {Integer} examPlanId - the id of the planned exam
+ */
+const getPlannedExamByUID = async (examPlanId) => {
+  const result = await database.query("SELECT * FROM exam_plan WHERE uid = ?", [
+    examPlanId,
+  ]);
+
+  return result;
+};
+
+/**
  * Gets all exams in the plan for given exam id
  * @function
  * @param {Integer} exam_id - the id of the exam
@@ -123,4 +135,5 @@ export default {
   getPlannedExamsById,
   deletePlannedExam,
   updatePlannedExam,
+  getPlannedExamByUID,
 };
