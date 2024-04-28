@@ -7,8 +7,8 @@ Im Rahmen des Teamorientierten Praktikums haben wir uns dafür entschieden, den 
 Um das Backend zu starten müssen folgende Schritte ausgeführt werden:
 
 ```bash
-# Dependencies installieren, durch Sveltestrap ist --legacy-peer-deps nötig
-npm install --legacy-peer-deps
+# Dependencies installieren
+npm install
 
 # Entwicklungsumgebung starten
 npm run dev
