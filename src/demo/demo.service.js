@@ -18,7 +18,7 @@ const getMemberId = async () => {
 /**
  * Sets a new demo member id
  * @param {Integer} newMemberId - the new id of the demo member
- * @returns
+ * @returns {Object} data about the update
  */
 const updateMemberId = async (newMemberId) => {
   const result = await database.query(

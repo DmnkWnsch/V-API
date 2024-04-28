@@ -90,7 +90,7 @@ const addPlannedExam = async (newPlannedExam) => {
 /**
  * Deletes a planned exam
  * @param {Integer} uid - the uid of the planned exam
- * @returns
+ * @returns Data about the deletion
  */
 const deletePlannedExam = async (uid) => {
   const result = await database.query("DELETE FROM exam_plan WHERE uid = ?", [
@@ -111,7 +111,7 @@ const deletePlannedExam = async (uid) => {
  * Updates the date for a planned exam
  * @param {Integer} uid - the uid of the planned exam
  * @param {String} newDate - the new date
- * @returns
+ * @returns Data about the update
  */
 const updatePlannedExam = async (uid, newDate) => {
   const result = await database.query(

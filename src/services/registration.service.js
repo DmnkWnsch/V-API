@@ -107,7 +107,7 @@ const updateRegistrationState = async (memberId, examPlanId, newState) => {
 /**
  * Deletes ALL registrations for a planned exam
  * @param {Integer} examPlanId - the uid of the planned exam
- * @returns
+ * @returns Data about the deletion
  */
 const deleteRegistrationsForPlannedExam = async (examPlanId) => {
   const result = await database.query(
@@ -144,7 +144,7 @@ const deleteRegistrationForExam = async (memberId, examId, term) => {
  * Gets registration for a given member for a given exam
  * @param {Integer} memberId - the id of the member
  * @param {Integer} examId - the id of the exam
- * @returns
+ * @returns Registration for a member for an exam
  */
 const getRegistrationForMemberAndExamId = async (memberId, examId) => {
   const result = await database.query(
@@ -158,7 +158,7 @@ const getRegistrationForMemberAndExamId = async (memberId, examId) => {
 /**
  * Gets all registrations for a specific planned exam
  * @param {Integer} examPlanId - the id of the planned exam
- * @returns
+ * @returns All registrations for a planned exam
  */
 const getRegistrationsForPlannedExam = async (examPlanId) => {
   const result = await database.query(

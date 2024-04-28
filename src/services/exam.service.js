@@ -30,7 +30,7 @@ const getExamsForModule = async (moduleId) => {
 /**
  * Gets information about an exam
  * @param {Integer} examId - the id of the exam
- * @returns
+ * @returns Information about a specific exam
  */
 const getExamInformation = async (examId) => {
   const result = database.query(
@@ -109,7 +109,7 @@ const deleteExamsForModule = async (moduleId) => {
 /**
  * Gets the type for a specific exam
  * @param {Integer} examId - the id of the exam
- * @returns
+ * @returns the type of a given exam
  */
 const getTypeOfExam = async (examId) => {
   const result = await database.query("SELECT type FROM exams WHERE id = ?", [
@@ -129,7 +129,7 @@ const getTypeOfExam = async (examId) => {
 /**
  * Gets a list of all exams of a module by searching via the id of a planned exam
  * @param {Integer} examPlanId - the id of the planned exam
- * @returns
+ * @returns List of exams of a module by a planned exam
  */
 const getModuleExamsByPlannedExam = async (examPlanId) => {
   const result = await database.query(

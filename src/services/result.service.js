@@ -77,7 +77,7 @@ const addNewResult = async (newResult) => {
  * @param {Integer} memberId - the id of the member
  * @param {Integer} moduleId - the id of the module
  * @param {Integer} examId - the id of the exam
- * @returns
+ * @returns The amount of tries a member had for a given exam
  */
 const getTriesForMember = async (memberId, moduleId, examId) => {
   const result = await database.query(
@@ -93,7 +93,7 @@ const getTriesForMember = async (memberId, moduleId, examId) => {
  * @param {Integer} memberId - the id of the member
  * @param {Integer} examId - the id of the exam
  * @param {Integer} ptry - the try
- * @returns
+ * @returns Data about the deletion
  */
 const deleteResult = async (memberId, examId, ptry) => {
   const result = await database.query(
@@ -117,7 +117,7 @@ const deleteResult = async (memberId, examId, ptry) => {
  * @param {Integer} examId - the id of the exam
  * @param {Integer} ptry - the try
  * @param {String} newGrade - the new grade as decimal
- * @returns
+ * @returns Data about the update
  */
 const updateResult = async (memberId, examId, ptry, newGrade, newStatus) => {
   const result = await database.query(
