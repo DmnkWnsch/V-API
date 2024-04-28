@@ -33,6 +33,18 @@ const getPlannedExam = async (exam_id, date) => {
 };
 
 /**
+ * Gets a planned exem by its uid in the exam plan
+ * @param {Integer} examPlanId - the id of the planned exam
+ */
+const getPlannedExamByUID = async (examPlanId) => {
+  const result = await database.query("SELECT * FROM exam_plan WHERE uid = ?", [
+    examPlanId,
+  ]);
+
+  return result;
+};
+
+/**
  * Gets all exams in the plan for given exam id
  * @function
  * @param {Integer} exam_id - the id of the exam
@@ -75,8 +87,53 @@ const addPlannedExam = async (newPlannedExam) => {
   return newPlannedExam;
 };
 
+/**
+ * Deletes a planned exam
+ * @param {Integer} uid - the uid of the planned exam
+ * @returns
+ */
+const deletePlannedExam = async (uid) => {
+  const result = await database.query("DELETE FROM exam_plan WHERE uid = ?", [
+    uid,
+  ]);
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `The specified planned exam was not found (uid ${uid})`,
+    };
+  }
+
+  return result;
+};
+
+/**
+ * Updates the date for a planned exam
+ * @param {Integer} uid - the uid of the planned exam
+ * @param {String} newDate - the new date
+ * @returns
+ */
+const updatePlannedExam = async (uid, newDate) => {
+  const result = await database.query(
+    "UPDATE exam_plan SET date = ? WHERE uid = ?",
+    [newDate, uid]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `The specified planned exam was not found (uid ${uid})`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getPlannedExams,
   addPlannedExam,
   getPlannedExamsById,
+  deletePlannedExam,
+  updatePlannedExam,
+  getPlannedExamByUID,
 };

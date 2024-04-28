@@ -19,4 +19,23 @@ const resultsRouter = Router();
  */
 resultsRouter.post("/", resultController.addNewResult);
 
+/**
+ * Route for deleting an existing result
+ * @name DELETE /
+ * @bodyparam {Integer} member_id - the id of the member
+ * @bodyparam {Integer} exam_id - the id of the exam
+ * @bodyparam {Integer} try - the try
+ */
+resultsRouter.delete("/", resultController.deleteResult);
+
+/**
+ * Route for updating an existing result
+ * @name PATCH /
+ * @bodyparam {Integer} member_id - the id of the member
+ * @bodyparam {Integer} exam_id - the id of the exam
+ * @bodyparam {Integer} try - the try
+ * @bodyparam {Integer} grade - the new grade
+ */
+resultsRouter.patch("/", resultController.updateResult);
+
 export default resultsRouter;

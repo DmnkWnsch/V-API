@@ -4,6 +4,7 @@
  */
 
 import plannedExamsService from "../services/planned_exams.service.js";
+import registrationService from "../services/registration.service.js";
 import paramsUtil from "../util/params.util.js";
 import responseUtil from "../util/response.util.js";
 
@@ -42,7 +43,6 @@ const getPlannedExamsById = async (req, res) => {
  * @param {Object} res - Express response object
  * @param req.body - the payload for the exam to add to the plan
  */
-
 const addPlannedExam = async (req, res) => {
   const payload = req.body;
   const expectedParams = ["exam_id", "date", "register_period_id"];
@@ -66,8 +66,69 @@ const addPlannedExam = async (req, res) => {
   }
 };
 
+/**
+ * Deletes a planned exam
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the exam to delete
+ */
+const deletePlannedExam = async (req, res) => {
+  const payload = req.body;
+  const expectedParams = ["plan_id"];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  try {
+    const deletedExam = await plannedExamsService.deletePlannedExam(
+      payload.plan_id
+    );
+
+    const deleteRegistrations =
+      await registrationService.deleteRegistrationsForPlannedExam(
+        payload.plan_id
+      );
+
+    res.status(200).send({ data: deletedExam });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
+/**
+ * Deletes a planned exam
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.body - the payload for the exam to delete
+ */
+const updatePlannedExam = async (req, res) => {
+  const payload = req.body;
+  const expectedParams = ["plan_id", "date"];
+
+  if (!paramsUtil.allParametersSet(payload, expectedParams)) {
+    responseUtil.sendMissingParamsResponse(res, expectedParams);
+    return;
+  }
+
+  try {
+    const updatedExam = await plannedExamsService.updatePlannedExam(
+      payload.plan_id,
+      payload.date
+    );
+    res.status(200).send({ data: updatedExam });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   getPlannedExams,
   getPlannedExamsById,
   addPlannedExam,
+  deletePlannedExam,
+  updatePlannedExam,
 };

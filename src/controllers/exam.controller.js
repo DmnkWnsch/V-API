@@ -78,9 +78,33 @@ const deleteExamsForModule = async (req, res) => {
   }
 };
 
+/**
+ * Gets information about a specific exam
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param req.params.examId - the exam id
+ */
+const getExamInformation = async (req, res) => {
+  const examId = req.params.examId;
+
+  if (!examId) {
+    responseUtil.sendMissingRouteParamsResponse(res, ["examId"]);
+    return;
+  }
+
+  try {
+    const result = await examService.getExamInformation(examId);
+    res.status(200).send({ data: result });
+  } catch (error) {
+    responseUtil.sendDefaultErrorResponse(res, error);
+  }
+};
+
 export default {
   getAllExams,
   getExamsForModule,
   addExam,
   deleteExamsForModule,
+  getExamInformation,
 };

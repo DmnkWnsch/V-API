@@ -13,7 +13,7 @@ import database from "../database/database.js";
  */
 const getResultsForMember = async (memberId) => {
   const result = await database.query(
-    "SELECT * FROM results WHERE `member_id` = ?",
+    "SELECT results.*, exams.type FROM results JOIN exams ON results.exam_id=exams.id WHERE `member_id` = ? ORDER BY results.module_id, try",
     [memberId]
   );
 
@@ -72,6 +72,13 @@ const addNewResult = async (newResult) => {
   return newResult;
 };
 
+/**
+ * Gets the current tries a member has for a specific exam
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} moduleId - the id of the module
+ * @param {Integer} examId - the id of the exam
+ * @returns
+ */
 const getTriesForMember = async (memberId, moduleId, examId) => {
   const result = await database.query(
     "SELECT * FROM results WHERE member_id = ? AND module_id = ? AND exam_id = ?",
@@ -81,9 +88,58 @@ const getTriesForMember = async (memberId, moduleId, examId) => {
   return result.length;
 };
 
+/**
+ * Deletes an existing result
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} examId - the id of the exam
+ * @param {Integer} ptry - the try
+ * @returns
+ */
+const deleteResult = async (memberId, examId, ptry) => {
+  const result = await database.query(
+    "DELETE FROM results WHERE member_id = ? AND exam_id = ? AND try = ?",
+    [memberId, examId, ptry]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Grade for ${memberId} in ${examId} (try ${ptry}) was not found!`,
+    };
+  }
+
+  return result;
+};
+
+/**
+ * Updates an existing result
+ * @param {Integer} memberId - the id of the member
+ * @param {Integer} examId - the id of the exam
+ * @param {Integer} ptry - the try
+ * @param {String} newGrade - the new grade as decimal
+ * @returns
+ */
+const updateResult = async (memberId, examId, ptry, newGrade, newStatus) => {
+  const result = await database.query(
+    "UPDATE results SET grade = ?, status = ? WHERE member_id = ? AND exam_id = ? AND try = ?",
+    [newGrade, newStatus, memberId, examId, ptry]
+  );
+
+  if (result.affectedRows == 0) {
+    throw {
+      status: 400,
+      message: `Grade for ${memberId} in ${examId} (try ${ptry}) was not found!`,
+    };
+  }
+
+  return result;
+};
+
 export default {
   getResultsForMember,
   getResult,
   addNewResult,
   getTriesForMember,
+  deleteResult,
+  updateResult,
 };

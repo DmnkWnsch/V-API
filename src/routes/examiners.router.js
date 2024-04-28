@@ -14,7 +14,14 @@ const examinersRouter = Router();
  * @bodyparam {Integer} exam_plan_id - the id of the exam in the planned exams
  * @bodyparam {Integer} member_id - the id of the examiner member
  */
-
 examinersRouter.post("/", examinerController.addExaminer);
+
+/**
+ * Route for deleting an examiner
+ * @name DELETE /
+ * @bodyparam {Integer} exam_plan_id - the id of the exam in the planned exams
+ * @bodyparam {Integer} member_id - the id of the examiner member
+ */
+examinersRouter.delete("/", examinerController.deleteExaminer);
 
 export default examinersRouter;

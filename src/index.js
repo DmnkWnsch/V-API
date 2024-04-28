@@ -11,6 +11,7 @@ import resultsRouter from "./routes/result.router.js";
 import examinersRouter from "./routes/examiners.router.js";
 import registrationRouter from "./routes/registration.router.js";
 import cors from "cors";
+import demoRouter from "./demo/demo.router.js";
 
 const corsOptions = {
   origin: "*",
@@ -32,6 +33,7 @@ app.use("/module-types", moduleTypesRouter);
 app.use("/results", resultsRouter);
 app.use("/examiners", examinersRouter);
 app.use("/registrations", registrationRouter);
+app.use("/demo", demoRouter);
 
 app.listen(3210, () => {
   console.log("Server is online");

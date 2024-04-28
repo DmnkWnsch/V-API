@@ -118,8 +118,15 @@ const updateRegistrationPeriod = async (req, res) => {
   try {
     const updatedPeriod =
       await registrationPeriodService.updateRegistrationPeriod(periodData);
+
+    const periodName = await registrationPeriodService.getRegistrationPeriod(
+      periodId
+    );
+    updatedPeriod.name = periodName[0].name;
+
     res.status(200).send({ data: updatedPeriod });
   } catch (error) {
+    console.log(error);
     responseUtil.sendDefaultErrorResponse(res, error);
   }
 };
