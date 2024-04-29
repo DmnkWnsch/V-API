@@ -2,20 +2,11 @@ import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 dotenv.config();
 
-const config = {
-  host: "85.209.49.177",
-  user: "toprak",
-  //password: process.env.DB_PW,
-  password: "7BfPKAmLaSKHeRnY76lF",
-  database: "to_praktikum",
-};
-
 const pool = mysql.createPool({
-  host: "85.209.49.177",
-  user: "toprak",
-  //password: process.env.DB_PW,
-  password: "7BfPKAmLaSKHeRnY76lF",
-  database: "to_praktikum",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PW,
+  database: process.env.DB_DATABASE,
   waitForConnections: true,
   connectionLimit: 10,
   maxIdle: 10,
