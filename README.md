@@ -14,7 +14,7 @@ npm install
 npm run dev
 ```
 
-Für eine erfolgreiche Verbindung mit der Datenbank sind noch Login-Daten in `src/database/database.js` notwendig.
+Für eine erfolgreiche Verbindung mit der Datenbank sind noch Login-Daten in `.env` notwendig.
 Als Datenbank wurde MariaDB Version 10.3.39 verwendet.
 
 ## System exportieren
