@@ -1,32 +1,10 @@
-# Teamorientiertes Praktikum
+# API für die Verwaltungssoftware
 
-Im Rahmen des Teamorientierten Praktikums haben wir uns dafür entschieden, den SB-Service zu überarbeiten.
+Das Frontend, welches diese API verwendet, befindet sich [hier](https://github.com/DmnkWnsch/V-Frontend).
 
-## System starten
+Die Aufgabe dieser API ist es, die Schnittstelle zwischen dem Frontend und dessen Daten sowie der Datenbank bereitzustellen.
 
-Um das Backend zu starten müssen folgende Schritte ausgeführt werden:
+Dafür wurde **Express** eingesetzt, also auch mit **JavaScript** programmiert. Als Datenbank wurde **MySQL** eingesetzt.<br>
+Da für die Nutzung der API durch mehrere Personen eine gute Dokumentation wichtig war, wurde alles mit **JSDoc** dokumentiert.
 
-```bash
-# Dependencies installieren
-npm install
-
-# Entwicklungsumgebung starten
-npm run dev
-```
-
-Für eine erfolgreiche Verbindung mit der Datenbank sind noch Login-Daten in `.env` notwendig.
-Als Datenbank wurde MariaDB Version 10.3.39 verwendet.
-
-## System exportieren
-
-Hier ist kein eigener Bauprozess notwendig. Das Backend kann einfach gestartet werden, zum Beispiel:
-
-```bash
-# Mit Node starten
-node index.js
-
-# Oder mit PM2
-pm2 start index.js --name TOP-Backend
-```
-
-Dann ist die API erreichbar.
+Dieser Teil der Verwaltungssoftware wurde vollständig von mir erstellt.
